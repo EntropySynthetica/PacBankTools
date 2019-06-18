@@ -74,7 +74,7 @@ with open(r"SavedVarOutput.json") as json_file:
 
         for item in data['Default']['@LadyWinry']['$AccountWide']['guildStoreList']:
             #Skip if Guild Trader Bid Events
-            if (item['eventType']== 24) or (item['eventType']== 25) :
+            if (item['eventType']== 24) or (item['eventType']== 25) or (item['eventType']== 23) :
                 continue
 
             history_writer.writerow([
