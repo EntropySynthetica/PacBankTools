@@ -7,7 +7,7 @@ local LAM2 = LibStub:GetLibrary("LibAddonMenu-2.0")
 PacsBankAddon = {}
 
 PacsBankAddon.name = "PacBankTools"
-PacsBankAddon.version = "1.3.0"
+PacsBankAddon.version = "1.3.1"
 
 
 -- Initialize our Variables
@@ -149,7 +149,7 @@ function PacsBankAddon.UpdateGuildHistory()
     local activeGuildID = PacsBankAddon.savedVariables.activeGuildID
     local enableDebug = PacsBankAddon.savedVariables.enableDebug
 
-    RequestGuildHistoryCategoryOlder(activeGuildID, GUILD_HISTORY_BANK)
+    RequestMoreGuildHistoryCategoryEvents(activeGuildID, GUILD_HISTORY_BANK)
     local numGuildBankEvents = GetNumGuildEvents(activeGuildID, GUILD_HISTORY_BANK)
     local guildBankHistory = {}
     for GuildBankEventsIndex = 1, numGuildBankEvents do
@@ -201,7 +201,7 @@ function PacsBankAddon.UpdateGuildStoreHistory()
     local activeGuildID = PacsBankAddon.savedVariables.activeGuildID
     local enableDebug = PacsBankAddon.savedVariables.enableDebug
 
-    RequestGuildHistoryCategoryOlder(activeGuildID, GUILD_HISTORY_STORE)
+    RequestMoreGuildHistoryCategoryEvents(activeGuildID, GUILD_HISTORY_STORE)
     local numGuildStoreEvents = GetNumGuildEvents(activeGuildID, GUILD_HISTORY_STORE)
     local guildStoreHistory = {}
     for GuildStoreEventsIndex = 1, numGuildStoreEvents do
@@ -246,7 +246,7 @@ function PacsBankAddon.LoadGuildHistoryBackfill()
     local activeGuildID = PacsBankAddon.savedVariables.activeGuildID
     local enableDebug = PacsBankAddon.savedVariables.enableDebug
 
-    RequestGuildHistoryCategoryOlder(activeGuildID, GUILD_HISTORY_BANK)
+    RequestMoreGuildHistoryCategoryEvents(activeGuildID, GUILD_HISTORY_BANK)
     local moreEvents = (DoesGuildHistoryCategoryHaveMoreEvents(activeGuildID, GUILD_HISTORY_BANK))
 
     if moreEvents then
@@ -273,7 +273,7 @@ function PacsBankAddon.LoadGuildStoreBackfill()
     local activeGuildID = PacsBankAddon.savedVariables.activeGuildID
     local enableDebug = PacsBankAddon.savedVariables.enableDebug
 
-    RequestGuildHistoryCategoryOlder(activeGuildID, GUILD_HISTORY_STORE)
+    RequestMoreGuildHistoryCategoryEvents(activeGuildID, GUILD_HISTORY_STORE)
     local moreEvents = (DoesGuildHistoryCategoryHaveMoreEvents(activeGuildID, GUILD_HISTORY_STORE))
 
     if moreEvents then
