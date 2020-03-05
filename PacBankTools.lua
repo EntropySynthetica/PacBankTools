@@ -1,13 +1,12 @@
 
 -- Load Required Libraries
-local LAM2 = LibStub:GetLibrary("LibAddonMenu-2.0")
---local LIBMW = LibStub:GetLibrary("LibMsgWin-1.0")
+local LAM2 = LibAddonMenu2
 
 -- Initialize our Namespace Table
 PacsBankAddon = {}
 
 PacsBankAddon.name = "PacBankTools"
-PacsBankAddon.version = "1.3.1"
+PacsBankAddon.version = "1.4.0"
 
 
 -- Initialize our Variables
@@ -49,10 +48,10 @@ function PacsBankAddon:Initialize()
         PacsBankAddon.UpdateGuildStoreHistory()
 
         -- Poll the Server every 2.5 seconds to get Guild Bank History filled. 
-        EVENT_MANAGER:RegisterForUpdate("PacsUpdateGuildHistory", 2500, PacsBankAddon.LoadGuildHistoryBackfill)
+        EVENT_MANAGER:RegisterForUpdate("PacsUpdateGuildHistory", 10000, PacsBankAddon.LoadGuildHistoryBackfill)
 
         -- Poll the Server every 2.5 seconds to get Guild Store History filled. 
-        EVENT_MANAGER:RegisterForUpdate("PacsUpdateGuildStore", 2500, PacsBankAddon.LoadGuildStoreBackfill)
+        EVENT_MANAGER:RegisterForUpdate("PacsUpdateGuildStore", 10000, PacsBankAddon.LoadGuildStoreBackfill)
     end
 
 
@@ -260,9 +259,12 @@ function PacsBankAddon.LoadGuildHistoryBackfill()
         d("So far we have loaded " .. GetNumGuildEvents(activeGuildID, GUILD_HISTORY_BANK) .. " guild bank events")
     end
 
+    currentNumofBankEvents = tonumber(GetNumGuildEvents(activeGuildID, GUILD_HISTORY_BANK))
+
     -- If there are no more events to load lets stop checking every 2.5 seconds, and update our saved variables.
-    if moreEvents == false then
+    if (moreEvents == false) or (currentNumofBankEvents > 2500) then
         EVENT_MANAGER:UnregisterForUpdate("PacsUpdateGuildHistory")
+        d("Bank Load Complete")
         PacsBankAddon.UpdateGuildHistory()
     end
 end
@@ -287,9 +289,12 @@ function PacsBankAddon.LoadGuildStoreBackfill()
         d("So far we have loaded " .. GetNumGuildEvents(activeGuildID, GUILD_HISTORY_STORE) .. " guild store events")
     end
 
+    currentNumofStoreEvents = tonumber(GetNumGuildEvents(activeGuildID, GUILD_HISTORY_STORE))
+
     -- If there are no more events to load lets stop checking every 2.5 seconds, and update our saved variables.
-    if moreEvents == false then
+    if moreEvents == false or (currentNumofStoreEvents > 2500) then
         EVENT_MANAGER:UnregisterForUpdate("PacsUpdateGuildStore")
+        d("Store Load Complete")
         PacsBankAddon.UpdateGuildStoreHistory()
     end
 end
